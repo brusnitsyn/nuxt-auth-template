@@ -1,23 +1,10 @@
 <script setup lang="ts">
+const { signIn } = useAuth()
 const activeAuthTab = ref('login')
 const changeTab = (tabName: string) => {
     activeAuthTab.value = tabName
 }
-const changeTabReset = () => {
-    activeAuthTab.value = 'reset'
-}
-const changeTabResetPin = () => {
-    activeAuthTab.value = 'reset-pin'
-}
-const changeTabLogin = () => {
-    activeAuthTab.value = 'login'
-}
-const changeTabRegister = () => {
-    activeAuthTab.value = 'register'
-}
-const changeTabResetStep = (num: number) => {
-    activeAuthTab.value = `reset-${num}`
-}
+definePageMeta({ middleware: "guest-only", auth: { authenticatedRedirectTo: "/" } })
 </script>
 
 <template>
@@ -36,13 +23,13 @@ const changeTabResetStep = (num: number) => {
                     </CardHeader>
                     <CardContent>
                         <div class="grid grid-rows-auto gap-y-2">
-                            <Button variant="outline" class="w-full">
+                            <Button variant="outline" class="w-full" @click="signIn('yandex')">
                                 <div class="flex items-center gap-x-2">
                                     <Icon name="Yandex" size="18" />
                                     Войти с Яндекс ID
                                 </div>
                             </Button>
-                            <Button variant="outline" class="w-full">
+                            <Button variant="outline" class="w-full" @click="signIn('google')">
                                 <div class="flex items-center gap-x-2">
                                     <Icon name="devicon:google" size="18" />
                                     Войти с Google
@@ -57,7 +44,7 @@ const changeTabResetStep = (num: number) => {
                         <FormLoginSegment />
                     </CardContent>
                     <CardFooter class="flex flex-col justify-center px-6 pb-6">
-                        <span class="text-sm">Забыли свой пароль? <Button variant="link" @click="changeTabReset">Мы
+                        <span class="text-sm">Забыли свой пароль? <Button variant="link" @click="changeTab('reset')">Мы
                                 поможем</Button></span>
                     </CardFooter>
                 </Card>
@@ -77,7 +64,7 @@ const changeTabResetStep = (num: number) => {
                         <FormRegisterSegment />
                     </CardContent>
                     <CardFooter class="flex justify-center px-6 pb-6">
-                        <span class="text-sm">Забыли свой пароль? <Button variant="link" @click="changeTabReset">Мы
+                        <span class="text-sm">Забыли свой пароль? <Button variant="link" @click="changeTab('reset')">Мы
                                 поможем</Button></span>
                     </CardFooter>
                 </Card>
@@ -96,7 +83,7 @@ const changeTabResetStep = (num: number) => {
                         <FormResetEmailSegment @changeTabTo="value => changeTab(value)" />
                     </CardContent>
                     <CardFooter class="flex justify-center px-6 pb-6">
-                        <span class="text-sm">Вспомнили пароль? <Button variant="link" @click="changeTabLogin">Мы
+                        <span class="text-sm">Вспомнили пароль? <Button variant="link" @click="changeTab('login')">Мы
                                 вернем Вас назад</Button></span>
                     </CardFooter>
                 </Card>
@@ -106,7 +93,7 @@ const changeTabResetStep = (num: number) => {
                     <CardHeader>
                         <CardTitle>
                             <div class="flex items-center text-xl gap-x-1">
-                                <Icon name="ep:back" class="text-normal cursor-pointer" @click="changeTabReset" />
+                                <Icon name="ep:back" class="text-normal cursor-pointer" @click="changeTab('reset')" />
                                 <span>Восстановление доступа</span>
                             </div>
                         </CardTitle>
@@ -116,7 +103,7 @@ const changeTabResetStep = (num: number) => {
                         <FormResetPinSegment />
                     </CardContent>
                     <CardFooter class="flex justify-center px-6 pb-6">
-                        <span class="text-sm">Вспомнили пароль? <Button variant="link" @click="changeTabLogin">Мы
+                        <span class="text-sm">Вспомнили пароль? <Button variant="link" @click="changeTab('login')">Мы
                                 вернем Вас назад</Button></span>
                     </CardFooter>
                 </Card>

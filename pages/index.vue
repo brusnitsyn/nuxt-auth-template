@@ -1,13 +1,16 @@
 <script setup lang="ts">
-const router = useRouter()
+const { session, status, cookies, signOut } = useAuth()
 
-const toAuthorizePage = () => {
-    router.push({ name: 'auth' })
-}
+definePageMeta({ middleware: "auth", auth: { guestRedirectTo: "/auth" } })
 </script>
 
 <template>
     <div class="mt-12">
-        <Button @click="toAuthorizePage()">Authorize</Button>
+        <Button @click="signOut()">Sign out</Button>
+        <div>
+            <pre>{{ status }}</pre>
+            <pre>{{ session?.user }}</pre>
+            <pre>{{ cookies }}</pre>
+        </div>
     </div>
 </template>
